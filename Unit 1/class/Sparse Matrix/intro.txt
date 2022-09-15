@@ -1,0 +1,11 @@
+A matrix for which most of values are zero is termed as Sparse matrix.
+if it is stored in 2D matrix it wastes a lot of space,
+so alternate representations:
+1.)Triple notation: 
+Row number, column number, values
+typedef struct 
+{
+    int col;
+    int row;
+    int value;
+}term;

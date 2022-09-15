@@ -1,0 +1,36 @@
++,-,*,/ -> Left Associativity
+^ -> Right Associativity
+
+Examples:
+a + b*c/d -> abc*d/+
+a*(b+c) -> abc+*
+
+a+b*c-d/e*f -> abc*+de/f*-
+Stack holds operators according to their precedence
+operands are directly put into postfix
+operator are compared and put in Stack
+Rules:
+1.) If the token is an operand copy it into postfix expression
+2.) If token is operator 
+            -> If stack i empty push it to stack
+            -> Incoming operator precedence higher than the precedence of stack top 
+                    push op into stack
+            -> Incoming op precedence is less than precedence of stack top
+                    pop the higher one to postfix and then continue    
+            -> Incoming op precedence = precedence of stack top
+                    inturn check for associativity
+                    ( +-*/ -> left associative, ^ -> Right associative)
+                    pop according to associativity and continue
+3.) If token '(' push it to stack
+4.) if token ')' pop to postfix till '('
+
+
+token   Stack(left to right)   Postfix
+a                               a
++               +               
+b               +               ab
+*               + *             ab
+c               + *             abc
+-               +               abc*
+~               -               abc*+
+d               -               abc*+

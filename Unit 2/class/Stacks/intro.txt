@@ -1,0 +1,20 @@
+STACK ADT:
+-> Last in First Out Data structure
+-> Operations:
+    Push: Place an element in stack (on top of existing if any)
+    Pop: Remove last inserted element from stack
+    Peep: Look at last inserted element
+    Init: Initialise stack
+    Display: Display stack contents
+-> We use top variable(in case of array impl, -1 in beginning)  
+-> Linked list then no need of top (insertfront and deletefront)
+-> Top points to the last element inserted to the stack
+-> isEmptyStack, isFullStack (in case of array implementation)
+-> stack overflow: stack is full and we are trying to Push
+-> stack underflow: stack is empty and we are trying to pop (top is -1, head null)
+
+APPLICATIONS:
+-> Function Call
+-> Recursion
+-> Parenthesis Match
+-> Infix to Postfix Expression

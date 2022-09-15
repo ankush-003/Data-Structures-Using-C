@@ -1,0 +1,40 @@
+QUEUES:
+it is a FIFO data structure.
+-> Linear Queue
+-> Circular Queue
+-> Double Ended Queue
+
+It has two ends (unlike stack), enqueue at rear and dequeue at front.
+
+Operations:
+init
+enqueue
+dequeue
+
+-> intitially front and rear are -1
+-> we need to check queue empty or not while inserting.
+    if queue is empty -> front and rear are moved and element is copied.
+    otherwise only rear is moved and element is copied till we reach size -1.
+
+->     
+
+
+CIRCULAR QUEUES:
+
+for isempty:
+same as linear queue: f=r=-1
+
+for full two conditions:
+i) rear is front -1
+ii) front = 0 and rear is qsize-1
+
+cases for enqueue:
+i) increment both f and r if empty
+ii) increment r 
+iii) if some element has been dequeued then:
+        r = (r+1)%qsize
+
+cases for dequeue:
+i) if f==r
+    f=-1, r=-1
+ii) f = (f+1)%qsize
