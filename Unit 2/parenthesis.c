@@ -84,6 +84,8 @@ int isBracket(char e)
 int isBalanced(char *exp)
 {
     Stack brackets;
+    if(strlen(exp)==0)
+        return -1;
     createStack(&brackets,strlen(exp));
     for(int i = 0; exp[i];i++)
     {
@@ -93,7 +95,7 @@ int isBalanced(char *exp)
                 push(&brackets,exp[i]);
             else
             {
-                if(peek(&brackets))
+                if(!isStackUnderFlow(&brackets))
                 {
                     if(isBracket(exp[i]) == isBracket(peek(&brackets)))
                         pop(&brackets);
