@@ -10,14 +10,12 @@ typedef struct node {
 }node;
 
 typedef struct stack {
-    node *head;
     node *top;
 }stack;
 
 void initStack(stack *sptr)
 {
     sptr->top = NULL;
-    sptr->head = NULL;
 }
 
 int isStackEmpty(stack *sptr)
@@ -33,12 +31,11 @@ void push(stack *sptr,int ele)
     temp->next = NULL;
     if(isStackEmpty(sptr))
     {
-        sptr->head = temp;
         sptr->top = temp;
     }
     else
     {
-        sptr->top->next = temp;
+        temp->next = sptr->top;
         sptr->top = temp;
     }
 }
@@ -52,20 +49,18 @@ int pop(stack *sptr)
     else
     {
         int del = -1;
-        if(sptr->head == sptr->top)
+        if(sptr->top->next == NULL)
         {
             del = sptr->top->info;
             free(sptr->top);
-            sptr->head = sptr->top = NULL;
+            sptr->top = NULL;
         }   
         else
         {
-            node *temp = sptr->head;
-            while(temp->next != sptr->top)
-                temp = temp->next;
-            del = sptr->top->info;
-            free(sptr->top);
-            sptr->top = temp;
+            node *temp = sptr->top;
+            sptr->top = sptr->top->next;
+            del = temp->info;
+            free(temp);
         }
         return del; 
     }
@@ -92,14 +87,13 @@ void displayStack(stack *sptr)
     }
     else
     {
-        node *temp = sptr->head;
+        node *temp = sptr->top;
         printf("Elements of stack are:\n");
-        while(temp != sptr->top)
+        while(temp != NULL)
         {
-            printf("%d ->",temp->info);
+            printf("| %d |\n",temp->info);
             temp = temp->next;
         }
-        printf("%d\n",temp->info);
     }
 }
 
