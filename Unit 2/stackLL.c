@@ -52,12 +52,21 @@ int pop(stack *sptr)
     else
     {
         int del = -1;
-        node *temp = sptr->head;
-        while(temp->next != sptr->top)
-            temp = temp->next;
-        del = sptr->top->info;
-        free(sptr->top);
-        sptr->top = temp;   
+        if(sptr->head == sptr->top)
+        {
+            del = sptr->top->info;
+            free(sptr->top);
+            sptr->head = sptr->top = NULL;
+        }   
+        else
+        {
+            node *temp = sptr->head;
+            while(temp->next != sptr->top)
+                temp = temp->next;
+            del = sptr->top->info;
+            free(sptr->top);
+            sptr->top = temp;
+        }
         return del; 
     }
 }
@@ -77,14 +86,21 @@ int peek(stack *sptr)
 
 void displayStack(stack *sptr)
 {
-    node *temp = sptr->head;
-    printf("Elements of stack are:\n");
-    while(temp != sptr->top)
+    if(isStackEmpty(sptr))
     {
-        printf("%d ->",temp->info);
-        temp = temp->next;
+        printf("Stack is Empty!\n");
     }
-    printf("%d\n",temp->info);
+    else
+    {
+        node *temp = sptr->head;
+        printf("Elements of stack are:\n");
+        while(temp != sptr->top)
+        {
+            printf("%d ->",temp->info);
+            temp = temp->next;
+        }
+        printf("%d\n",temp->info);
+    }
 }
 
 int main()
