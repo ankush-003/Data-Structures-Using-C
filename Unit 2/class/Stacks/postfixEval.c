@@ -65,6 +65,13 @@ int isOperator(char e)
     return 0;
 }
 
+int power(int a,int b)
+{
+    if(b == 0)
+        return a;
+    return a * power(a,b-1);    
+}
+
 int evaluate(Stack *sptr,char *expression)
 {
     int term = 0;
@@ -77,12 +84,12 @@ int evaluate(Stack *sptr,char *expression)
         {
             temp = expression[i];
             term = atoi(&temp);
-            printf("Expression %d\n",term);
+            //printf("Expression %d\n",term);
             push(sptr,term);
         }
         else
         {
-            if(peek(sptr) != -1)
+            if(!isEmpty(sptr))
             {
                 t2 = pop(sptr);
                 t1 = pop(sptr);
@@ -101,7 +108,7 @@ int evaluate(Stack *sptr,char *expression)
                     term = t1 / t2;
                     break;
                 case '^':
-                    term = pow(t1,t2);
+                    term = power(t1,t2);
                     break;
                 default:
                     exit(-1);
