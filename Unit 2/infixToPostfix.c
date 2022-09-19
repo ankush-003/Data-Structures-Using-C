@@ -127,6 +127,18 @@ void infixToPostfix(char *expression)
                 {
                     expression[++k] = pop(&s);
                 }
+                // // checking left or right associative
+                // while(!isEmpty(&s)&&(prec(expression[i])==prec(peek(&s))))
+                // {
+                //     if(prec(peek(&s))==3)// ^ is right associative
+                //     {
+                //         break;
+                //     }
+                //     else // left associative
+                //     {
+                //         expression[++k] = pop(&s);
+                //     }
+                // }
                 push(&s,expression[i]);
             }
         }
