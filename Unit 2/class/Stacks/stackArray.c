@@ -17,6 +17,7 @@ int pop(Stack *S);
 void display(Stack *S);
 void peep(Stack *S);
 int isFullStack(Stack S);
+int isEmptyStack(Stack *S);
 
 int main()
 {
@@ -97,10 +98,15 @@ int isFullStack(Stack S)
     return 0;
 }
 
+int isEmptyStack(Stack *S)
+{
+    return S->top == -1;
+}
+
 int pop(Stack *S)
 {
     int ele = -1;
-    if (!isEmptyStack(*S))
+    if (!isEmptyStack(S))
     {
         ele = S->stackelements[S->top];
         S->top--;
@@ -114,9 +120,9 @@ void display(Stack *S)
         printf("Empty Stack!\n");
     else{
         printf("Enter no elements!\n");
-        for(int i = 0;i<(S->capacity);i++)
+        for(int i = S->top;i>=0;i--)
         {
-            printf("%d\n",S->stackelements[i]);
+            printf("|\t%d\t|\n",S->stackelements[i]);
         }
     }    
 }
