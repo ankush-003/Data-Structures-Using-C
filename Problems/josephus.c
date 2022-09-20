@@ -4,55 +4,41 @@
 #include <stdarg.h>
 #include <math.h>
 
+typedef struct node {
+    int info;
+    struct node *next;
+}node;
+
 typedef struct circularq  {
-    int *arr;
-    int front;
-    int rear;
-    int size;
+    node *front;
+    node *rear;
 }cq;
 
-void initq(cq *qptr,int size)
+void initq(cq *qptr)
 {
-    qptr->size = size;
-    qptr->front = -1;
-    qptr->rear = -1;
-    qptr->arr = (int *) malloc(size * sizeof(int));
+    qptr->front = NULL;
+    qptr->rear = NULL;
 }
 
 int isEmpty(cq *qptr)
 {
-    return (qptr->front == qptr->rear) && (qptr->front == -1);
-}
-
-int isFull(cq *qptr)
-{
-    if ((qptr->front == 0 && qptr->rear == qptr->size - 1)||(qptr->rear = qptr->front - 1))
-        return 1;
-    return 0;    
+    return (qptr->front == qptr->rear) && (qptr->front == NULL);
 }
 
 void enqueue(cq *qptr,int ele)
 {
-    if(isFull(qptr)) 
+    node *temp = (node *) malloc(sizeof(node));
+    temp->info = ele;
+    temp->next = temp;
+    if(isEmpty(qptr))
     {
-        printf("Queue is Full!\n");
+        qptr->front = temp;
+        qptr->rear = temp;
     }
-    else
-    {
-        if(isEmpty(qptr))
-        {
-            qptr->front++;
-            qptr->rear++;
-        }
-        else if(qptr->front == 0)
-        {
-            qptr->rear++;
-        }
-        else
-        {
-            qptr->rear = (qptr->rear + 1) % qptr->size;
-        }
-        qptr->arr[qptr->rear] = ele;
+    else{
+        temp->next = qptr->front;
+        qptr->rear->next = temp;
+        qptr->rear = temp;
     }
 }
 
@@ -65,16 +51,18 @@ int dequeue(cq *qptr)
     }
     else
     {
-        int del = qptr->arr[qptr->front];
+        node *temp = qptr->front;
+        int del = temp->info;
         if(qptr->front == qptr->rear)
         {
-
-            qptr->rear = qptr->front = -1;
+            qptr->rear = qptr->front = NULL;
         }
         else
         {
-            qptr->front = (qptr->front + 1) % qptr->size;
+            qptr->front = qptr->front->next;
+            qptr->rear->next = qptr->front;
         }
+        free(temp);
         return del;
     }
 }
@@ -82,7 +70,7 @@ int dequeue(cq *qptr)
 int survivor(int n,int k)
 {
     cq aux;
-    initq(&aux,n);
+    initq(&aux);
     for(int i = 1;i <= n;i++)
     {
         enqueue(&aux,i);
@@ -93,20 +81,29 @@ int survivor(int n,int k)
     }
     if(n == 1)
     {
-        return 1;
+        return dequeue(&aux);
     }
     else
     {
-        int s = -1;
-        for(int i=0;aux.front != aux.rear;i = (i + k)%n)
+        while(aux.front != aux.rear)
         {
-            
+            for(int i = 0;i < k;i++)
+            {
+                enqueue(&aux,dequeue(&aux));
+            }
+            printf("killed position: %d\n",dequeue(&aux));
         }
+        return dequeue(&aux);
     }
 }
 
 int main()
 {
-    
+    int n,k;
+    printf("Enter number of soldiers: ");
+    scanf("%d",&n);
+    printf("Enter k value: ");
+    scanf("%d",&k);
+    printf("Survivor is %d\n",survivor(n,k));
     return 0;
 }
