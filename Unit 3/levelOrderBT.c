@@ -3,25 +3,125 @@
 #include <string.h>
 #include <stdarg.h>
 #include <math.h>
+#define SIZE 20
 
-typedef struct node {
-    int key;
+struct node {
+    int data;
     struct node *lchild;
     struct node *rchild;
-}Node;
+};
+typedef struct node Node;
 
-typedef struct bintree {
-    Node *troot;
-}BinTree;
+struct binaryTree {
+    Node *root;
+};
+typedef struct binaryTree binTree;
 
-typedef struct queue{
+struct queue{
     int front;
     int rear;
-    Node *ptr[20];
-}Q;
+    Node *ptr[SIZE];
+};
+typedef struct queue Q;
+
+void initTree(binTree *btptr) 
+{
+    btptr->root = NULL;
+}
+
+void initQ(Q *qptr)
+{
+    qptr->front=-1;
+    qptr->rear=-1;
+}
+
+void enqueue(Q *qptr,Node *newNode)
+{
+    if(qptr->rear == SIZE - 1) {
+        printf("Queue is Full!\n");
+    }
+    else {
+        if(qptr->front == -1)
+            qptr->front++;
+        qptr->rear++;
+        qptr->ptr[qptr->rear] = newNode;
+    }
+}
+
+Node *dequeue(Q *qptr) 
+{
+    if(qptr->front==-1)
+        return NULL;
+
+    Node *temp;
+    temp = qptr->ptr[qptr->front];
+    if(qptr->front == qptr->rear) {
+        qptr->front = -1;
+        qptr->rear = -1;
+    }
+    else {
+        qptr->front++;
+    }
+    return temp;
+}
+
+Node *createNode(int data){
+    Node *newNode;
+    if(data==-1)
+        return NULL;
+    newNode = (Node *) malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->lchild = NULL;
+    newNode->rchild = NULL;
+}
+
+Node *createTree(binTree *btptr){
+    int data;
+    Node *newNode,*cur;
+    Q auxq;
+    initQ(&auxq);
+
+    printf("Enter Node data(-1 to END)\n");
+    scanf("%d",&data);
+    if(data == -1) 
+        return NULL;
+    newNode->data = data;
+    newNode->lchild = NULL;
+    newNode->rchild = NULL;
+    enqueue(&auxq,newNode);
+    btptr->root = newNode;
+
+    while(auxq.front != -1){
+        cur = dequeue(&auxq);
+        printf("\n Enter the left child Node value for %d: ",cur->data);
+        scanf("%d",&data);
+        cur->lchild = createNode(data);
+        if(cur->lchild != NULL)
+            enqueue(&auxq,cur->lchild);
+
+        printf("\n Enter the right child Node value for %d: ",cur->data);
+        scanf("%d",&data);
+        cur->rchild = createNode(data);
+        if(cur->rchild != NULL)
+            enqueue(&auxq,cur->rchild);
+    } 
+}
+
+void preorder(Node *root)
+{
+    if(root==NULL)
+        return;
+    printf("%d ",root->data);
+    preorder(root->lchild);
+    preorder(root->rchild);
+}
 
 int main()
 {
-    // Code
-    return 0;
+    binTree bt;
+    initTree(&bt);
+    createTree(&bt);
+    printf("Preorder traversal: ");
+    preorder(bt.root);
+    printf("\nEND\n");
 }
