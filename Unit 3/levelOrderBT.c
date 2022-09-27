@@ -130,9 +130,9 @@ int main()
     createTree(&bt);
     printf("Preorder traversal: ");
     preorder(bt.root);
-    int min = 0;
+    int min = 1000;
     findMin(bt.root,&min);
-    if(!min)
+    if(min != 1000)
         printf("Mininmum value: %d\n",min);
     printf("\nEND\n");
 }
