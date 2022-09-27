@@ -83,11 +83,7 @@ Node *createTree(binTree *btptr){
 
     printf("Enter Node data(-1 to END)\n");
     scanf("%d",&data);
-    if(data == -1) 
-        return NULL;
-    newNode->data = data;
-    newNode->lchild = NULL;
-    newNode->rchild = NULL;
+    newNode = createNode(data);
     enqueue(&auxq,newNode);
     btptr->root = newNode;
 
@@ -116,6 +112,17 @@ void preorder(Node *root)
     preorder(root->rchild);
 }
 
+void findMin(Node *root,int *min)
+{
+    // Using Preorder Traversals
+    if(root == NULL)
+        return;
+    if(*min > root->data)
+        *min = root->data;
+    findMin(root->lchild,min);
+    findMin(root->rchild,min);        
+}
+
 int main()
 {
     binTree bt;
@@ -123,5 +130,9 @@ int main()
     createTree(&bt);
     printf("Preorder traversal: ");
     preorder(bt.root);
+    int min = 0;
+    findMin(bt.root,&min);
+    if(!min)
+        printf("Mininmum value: %d\n",min);
     printf("\nEND\n");
 }
