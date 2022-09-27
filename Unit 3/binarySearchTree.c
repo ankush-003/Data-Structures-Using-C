@@ -59,7 +59,51 @@ void preOrder(Node *root)
     preOrder(root->rchild);    
 }
 
-void inOrder(Node *root);
+void inOrder(Node *root)
+{
+    if(root == NULL)
+        return;
+    preOrder(root->lchild);
+    printf("%d ",root->key);
+    preOrder(root->rchild);
+}
+
+int findMin(Node *root)
+{
+    if(root == NULL)
+    {
+        printf("Empty BST!\n");
+        return -1;
+    }
+    Node *cur = root;
+    while(cur->lchild != NULL)
+    {
+        cur = cur->lchild;
+    }
+    return cur->key;
+}
+
+int findMax(Node *root)
+{
+    if(root == NULL)
+    {
+        printf("Empty BST!\n");
+        return -1;
+    }
+    Node *cur = root;
+    while(cur->rchild != NULL)
+    {
+        cur = cur->rchild;
+    }
+    return cur->key;
+}
+
+void leafCount(Node *root,int *leaf)
+{
+    if(root == NULL)
+        return;
+        
+}
 
 int main()
 {
@@ -83,6 +127,14 @@ int main()
         }    
     }
     printf("\nPreorder Traversal: ");
+    preOrder(bstree.troot);
+    printf("\nInorder Traversal: ");
+    inOrder(bstree.troot);
 
+    printf("Minimum Value: %d\n",findMin(bstree.troot));
+    printf("Maximum Value: %d\n",findMax(bstree.troot));
+
+    int leaf =  0;
+    leafCount(bstree.troot,&leaf); 
     return 0;
 }
