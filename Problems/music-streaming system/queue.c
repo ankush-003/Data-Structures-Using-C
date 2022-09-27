@@ -24,6 +24,9 @@ int dequeue(queue_t* q) 	// TODO: return the data at the front of a queue and re
 
 int front(queue_t* q) // TODO: return the data at the front of a queue. Return -1 if queue is empty
 {
+	if(empty(q))
+		return -1;
+	return q->front->data;	
 }
 
 int empty(queue_t* q) // return if the queue is empty
