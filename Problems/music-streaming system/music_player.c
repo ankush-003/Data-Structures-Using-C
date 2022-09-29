@@ -142,56 +142,105 @@ void reverse(playlist_t* playlist) // TODO: reverse the order of the songs in th
 
 void k_swap(playlist_t* playlist, int k) // TODO: swap the node at position i with node at position i+k upto the point where i+k is less than the size of the linked list
 {
-	node_t *inode = playlist->list->head, *temp;
-    int i = 0, x = k;
-    while(i+x < playlist->list->size){
-        node_t *knode = inode;
-        while(k && knode != NULL){
-            knode = knode->next;
-            k--;
-        }
-        node_t *iprev = inode->prev, *inext = inode->next;
-        node_t *kprev = knode->prev, *knext = knode->next;
-        temp = inode;
-        inode = knode;
-        knode = temp;
+	int j = 0;
+	node_t* nodeK = playlist->list->head;
 
-        if(iprev != NULL){
-            iprev->next = knode;
-            knode->prev = iprev;
-        }
-        else{
-            knode->prev = NULL;
-        }
+	while(nodeK != NULL && j < k) 
+	{
+		nodeK = nodeK->next;
+		j++;
+	}
 
-        if(kprev != NULL){
-            kprev->next = inode;
-            inode->prev = kprev;
-        }
+	if(nodeK != NULL) 
+	{
+		node_t* nodeI = playlist->list->head;
+		int i = 0;
 
-        if(inext != NULL){
-            inext->prev = knode;
-            knode->next = inext;
-        }
-        else{
-            knode->next = NULL;
-        }
+		node_t* nodeKNext = NULL; 
+		node_t* nodeKPrev = NULL;
+		node_t* nodeNextI = NULL;
+		node_t* nodePrevI = NULL;
 
-        if(knext != NULL){
-            inode->next = knext;
-            knext->prev = inode;
-        }
-        else{
-            inode->next = NULL;
-        }
-        i++;
-        inode = knode->next;
-        k = x;
-    }
+		while(i + k < playlist->list->size) 
+		{
+			nodeNextI = nodeI->next;
+			nodePrevI = nodeI->prev;
+			nodeKNext = nodeK->next;
+			nodeKPrev = nodeK->prev;
+
+			if(nodeI->next == nodeK) 
+			{
+				nodeI->prev = nodeK;
+				nodeK->next = nodeI;
+				nodeK->prev = nodePrevI;
+				nodeI->next = nodeKNext;
+				
+				if(nodeKNext != NULL) 
+				{
+					nodeKNext->prev = nodeI;
+				}
+
+				else 
+				{
+					playlist->list->tail = nodeI;
+				}
+
+				if(nodePrevI != NULL) 
+				{
+					nodePrevI->next = nodeK;
+				}
+
+				else 
+				{
+					playlist->list->head = nodeK;
+				}
+				
+				nodeK = nodeKNext;
+				
+			}
+
+			else 
+			{
+				nodeI->prev = nodeKPrev;
+				nodeK->next = nodeNextI;
+				nodeK->prev = nodePrevI;
+				nodeI->next = nodeKNext;
+				
+				nodeNextI->prev = nodeK;
+				nodeKPrev->next = nodeI;
+
+				if(nodeKNext != NULL) 
+				{
+					nodeKNext->prev = nodeI;
+				}
+
+				else 
+				{
+					playlist->list->tail = nodeI;
+				}
+
+				if(nodePrevI != NULL) 
+				{
+					nodePrevI->next = nodeK;
+				}
+
+				else 
+				{
+					playlist->list->head = nodeK;
+				}
+
+				nodeI = nodeNextI;
+				nodeK = nodeKNext;
+			}
+
+			i++;
+		}
+	}
 }
 
 void shuffle(playlist_t* playlist, int k) // TODO: perform k_swap and reverse
 {
+	k_swap(playlist,k);
 	reverse(playlist);
 }
 
