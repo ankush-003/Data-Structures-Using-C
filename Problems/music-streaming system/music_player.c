@@ -35,22 +35,61 @@ void clear_music_queue(music_queue_t* q) // clear the queue q
 
 void add_song(playlist_t* playlist, int song_id, int where) // TODO: add a song id to the end of the playlist
 {
+	switch (where)
+	{
+	case -1:
+		insert_front(playlist->list,song_id);
+		break;
+	
+	case -2:
+		insert_back(playlist->list,song_id);
+		break;
+	
+	default:
+		insert_after(playlist->list,song_id,where);
+	}
+	playlist->num_songs++;
 }
 
 void delete_song(playlist_t* playlist, int song_id) // TODO: remove song id from the playlist
 {
+	if(is_empty(playlist->list))
+		return;
+	delete_node(playlist->list,song_id);
+	playlist->num_songs--;	
 }
 
 song_t* search_song(playlist_t* playlist, int song_id) // TODO: return a pointer to the node where the song id is present in the playlist
 {
+	return search(playlist->list,song_id);
 }
 
 void search_and_play(playlist_t* playlist, int song_id) // TODO: play the song with given song_id from the list(no need to bother about the queue. Call to this function should always play the given song and further calls to play_next and play_previous)
 {
+	playlist->last_song = search(playlist->list,song_id);
+	if(playlist->last_song != NULL)
+		play_song(song_id);
 }
 
 void play_next(playlist_t* playlist, music_queue_t* q) // TODO: play the next song in the linked list if the queue is empty. If the queue if not empty, play from the queue
 {
+	if(!empty(q)) {
+		play_from_queue(q);
+	}
+	else {
+		if(is_empty(playlist->list))
+			return;
+
+		song_t *song = NULL;	
+		if((playlist->last_song == NULL)||(playlist->last_song->next == NULL)) {
+			song = playlist->list->head;
+		}
+		else {
+			song = playlist->last_song->next;
+		}
+		play_song(song->data);
+		playlist->last_song = song;
+	}
 }
 
 void play_previous(playlist_t* playlist) // TODO: play the previous song from the linked list
@@ -71,6 +110,24 @@ void reverse(playlist_t* playlist) // TODO: reverse the order of the songs in th
 
 void k_swap(playlist_t* playlist, int k) // TODO: swap the node at position i with node at position i+k upto the point where i+k is less than the size of the linked list
 {
+	if(is_empty(playlist->list))
+		return;
+
+	node_t *tempNext, *tempPrev;		
+	node_t *cur1 = playlist->list->head;	
+	node_t *cur2 = NULL;
+	for (int i = 0; i+k < (playlist->list->size); i++)
+	{
+		tempNext = cur1->next;
+		tempPrev = cur1->prev;
+		cur2 = cur1;
+		for(int j=0;j<k;j++)
+			cur2 = cur2->next;
+		cur1->next = cur2->next;
+		cur1->prev = cur2->prev;
+		cur2->next = tempNext;
+		cur2->prev = tempPrev;	
+	}
 }
 
 void shuffle(playlist_t* playlist, int k) // TODO: perform k_swap and reverse

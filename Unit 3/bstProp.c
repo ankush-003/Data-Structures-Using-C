@@ -4,6 +4,14 @@
 #include <stdarg.h>
 #include <math.h>
 
+/* Properties:
+-> Height of the tree
+-> Number of nodes in the tree
+-> Leaf count
+-> Count of non-leaf Nodes
+-> Traversal
+-> Search for a key Value */
+
 struct node {
     int key;
     struct node *lchild;
@@ -50,60 +58,47 @@ Node *insert(Node *root,int data)
     return root;
 }
 
-void preOrder(Node *root)
+int heightBST(Node *root)
+{
+    if(root == NULL)
+        return 0;
+
+    int lh = heightBST(root->lchild);
+    int rh = heightBST(root->rchild);
+
+    return (lh>rh)?lh+1:rh+1;    
+}
+
+void reverseBST(Node *root)
 {
     if(root == NULL)
         return;
-    printf("%d ",root->key);
-    preOrder(root->lchild);
-    preOrder(root->rchild);    
+
+    Node *temp = root->lchild;
+    root->lchild = root->rchild;
+    root->rchild = temp;    
 }
 
-void inOrder(Node *root)
+int leafCountBST(Node *troot)
 {
-    if(root == NULL)
-        return;
-    preOrder(root->lchild);
-    printf("%d ",root->key);
-    preOrder(root->rchild);
+    if(troot != NULL)
+    {
+        if(troot->lchild == NULL && troot->rchild == NULL)
+            return 1;
+        int l,r;
+        l = leafCountBST(troot->lchild);
+        r = leafCountBST(troot->rchild);
+        return l+r;
+    }
+    return 0;
 }
 
-int findMin(Node *root)
+int nonLeafNode(Node *troot)
 {
-    if(root == NULL)
-    {
-        printf("Empty BST!\n");
-        return -1;
-    }
-    Node *cur = root;
-    while(cur->lchild != NULL)
-    {
-        cur = cur->lchild;
-    }
-    return cur->key;
+    if((troot == NULL)||(troot->lchild == NULL && troot->rchild == NULL))
+        return 0;
+    return (nonLeafNode(troot->lchild) + 1 + nonLeafNode(troot->rchild));    
 }
-
-int findMax(Node *root)
-{
-    if(root == NULL)
-    {
-        printf("Empty BST!\n");
-        return -1;
-    }
-    Node *cur = root;
-    while(cur->rchild != NULL)
-    {
-        cur = cur->rchild;
-    }
-    return cur->key;
-}
-
-// void leafCount(Node *root,int *leaf)
-// {
-//     if(root == NULL)
-//         return;
-        
-// }
 
 int main()
 {
@@ -126,15 +121,9 @@ int main()
                 insert(bstree.troot,data);
         }    
     }
-    printf("\nPreorder Traversal: ");
-    preOrder(bstree.troot);
-    printf("\nInorder Traversal: ");
-    inOrder(bstree.troot);
-
-    printf("Minimum Value: %d\n",findMin(bstree.troot));
-    printf("Maximum Value: %d\n",findMax(bstree.troot));
-
-    // int leaf =  0;
-    // leafCount(bstree.troot,&leaf); 
+    int leaf = leafCountBST(bstree.troot);
+    printf("Number of leaf nodes: %d\n",leaf);
+    int nleaf = nonLeafNode(bstree.troot);
+    printf("Number of NonLeaf nodes: %d\n",nleaf);
     return 0;
 }
