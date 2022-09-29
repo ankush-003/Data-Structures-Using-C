@@ -1,3 +1,21 @@
+/* Deletion of a Node in BST
+-> Leaf node
+-> Node has 1 child
+-> Node has 2 child
+
+example:
+            60
+            / \
+         40    80
+        / \      \
+      30   50     100
+       \          /
+       35        90
+                 / \
+                85 95
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,6 +52,7 @@ Node *insert(Node *root,int data)
 {
     if(root == NULL) {
         root = createNode(data);
+        return root;
     }
     if(data < root->key)
     {
@@ -46,26 +65,9 @@ Node *insert(Node *root,int data)
     else
     {
         printf("\nData is Duplicate!\n");
+        return NULL;
     }
     return root;
-}
-
-void preOrder(Node *root)
-{
-    if(root == NULL)
-        return;
-    printf("%d ",root->key);
-    preOrder(root->lchild);
-    preOrder(root->rchild);    
-}
-
-void inOrder(Node *root)
-{
-    if(root == NULL)
-        return;
-    preOrder(root->lchild);
-    printf("%d ",root->key);
-    preOrder(root->rchild);
 }
 
 int findMin(Node *root)
@@ -83,27 +85,53 @@ int findMin(Node *root)
     return cur->key;
 }
 
-int findMax(Node *root)
+void inOrder(Node *root)
 {
     if(root == NULL)
-    {
-        printf("Empty BST!\n");
-        return -1;
-    }
-    Node *cur = root;
-    while(cur->rchild != NULL)
-    {
-        cur = cur->rchild;
-    }
-    return cur->key;
+        return;
+    inOrder(root->lchild);
+    printf("%d ",root->key);
+    inOrder(root->rchild);
 }
 
-// void leafCount(Node *root,int *leaf)
-// {
-//     if(root == NULL)
-//         return;
-        
-// }
+Node *inorderSuccessor(Node *troot) {
+    if(troot == NULL) {
+        return 
+    }
+}
+
+Node *deleteNode(Node *troot,int ele)
+{
+    Node *temp = NULL;
+    if(troot == NULL)
+    {
+        // Takes care of data not found also
+        return NULL;
+    }
+    if(ele < troot->key) {
+        troot->lchild = deleteNode(troot->lchild,ele);
+    }
+    else if(ele > troot->key) {
+        troot->rchild = deleteNode(troot->rchild,ele);
+    }
+    else {
+        if(troot->lchild == NULL) {
+            temp = troot->rchild;
+            free(troot);
+            return temp;
+        }
+        else if(troot->rchild == NULL) {
+            temp = troot->lchild;
+            free(troot);
+            return temp;
+        }
+        else {
+            // Using inorderSuccessor method:
+            troot->key = findMin(troot->rchild);
+            troot->rchild = deleteNode(troot->rchild,troot->key);
+        }
+    }
+}
 
 int main()
 {
@@ -126,15 +154,13 @@ int main()
                 insert(bstree.troot,data);
         }    
     }
-    printf("\nPreorder Traversal: ");
-    preOrder(bstree.troot);
     printf("\nInorder Traversal: ");
     inOrder(bstree.troot);
-
-    printf("Minimum Value: %d\n",findMin(bstree.troot));
-    printf("Maximum Value: %d\n",findMax(bstree.troot));
-
-    // int leaf =  0;
-    // leafCount(bstree.troot,&leaf); 
+    int delNode = -1;
+    printf("\nEnter Node value to delete: ");
+    scanf("%d",&delNode);
+    deleteNode(bstree.troot,delNode);
+    printf("\nInorder Traversal: ");
+    inOrder(bstree.troot);
     return 0;
 }

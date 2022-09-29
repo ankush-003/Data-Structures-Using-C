@@ -30,6 +30,7 @@ int dequeue(queue_t* q) 	// TODO: return the data at the front of a queue and re
 	q->front = q->list->head;
 	q->rear = q->list->tail;
 	q->size = q->list->size;
+	return temp;
 }
 
 int front(queue_t* q) // TODO: return the data at the front of a queue. Return -1 if queue is empty

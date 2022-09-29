@@ -139,8 +139,15 @@ node_t* search(list_t* list, int data) // TODO: returns the pointer to the node 
 		return NULL;
 
 	node_t *cur = list->head;
-	while((cur->data != data)&&(cur != NULL))
-		cur = cur->next;
+	int found = 0;
+	while((cur != NULL)&&(!found)) {
+		if(cur->data == data) {
+			found++;
+		}
+		else {
+			cur = cur->next;
+		}
+	}	
 	return cur;
 }
 

@@ -42,6 +42,7 @@ Node *insert(Node *root,int data)
 {
     if(root == NULL) {
         root = createNode(data);
+        return root;
     }
     if(data < root->key)
     {
@@ -54,6 +55,7 @@ Node *insert(Node *root,int data)
     else
     {
         printf("\nData is Duplicate!\n");
+        return NULL;
     }
     return root;
 }
@@ -69,14 +71,16 @@ int heightBST(Node *root)
     return (lh>rh)?lh+1:rh+1;    
 }
 
-void reverseBST(Node *root)
+void mirrorBST(Node *troot)
 {
-    if(root == NULL)
+    if(troot == NULL)
         return;
 
-    Node *temp = root->lchild;
-    root->lchild = root->rchild;
-    root->rchild = temp;    
+    Node *temp = troot->lchild;
+    troot->lchild = troot->rchild;
+    troot->rchild = temp;  
+    mirrorBST(troot->lchild);
+    mirrorBST(troot->rchild);  
 }
 
 int leafCountBST(Node *troot)
@@ -100,6 +104,33 @@ int nonLeafNode(Node *troot)
     return (nonLeafNode(troot->lchild) + 1 + nonLeafNode(troot->rchild));    
 }
 
+int sizeBST(Node *troot)
+{
+    if(troot == NULL)
+    {
+        return 0;
+    }
+    return (sizeBST(troot->lchild) + 1 + sizeBST(troot->rchild));
+}
+
+void preOrder(Node *root)
+{
+    if(root == NULL)
+        return;
+    printf("%d ",root->key);
+    preOrder(root->lchild);
+    preOrder(root->rchild);    
+}
+
+void inOrder(Node *root)
+{
+    if(root == NULL)
+        return;
+    preOrder(root->lchild);
+    printf("%d ",root->key);
+    preOrder(root->rchild);
+}
+
 int main()
 {
     int data;
@@ -121,9 +152,18 @@ int main()
                 insert(bstree.troot,data);
         }    
     }
+    printf("\nPreorder Traversal: ");
+    preOrder(bstree.troot);
+    printf("\nInorder Traversal: ");
+    inOrder(bstree.troot);
     int leaf = leafCountBST(bstree.troot);
-    printf("Number of leaf nodes: %d\n",leaf);
+    printf("\nNumber of leaf nodes: %d\n",leaf);
     int nleaf = nonLeafNode(bstree.troot);
-    printf("Number of NonLeaf nodes: %d\n",nleaf);
+    printf("\nNumber of NonLeaf nodes: %d\n",nleaf);
+    int size = sizeBST(bstree.troot);
+    printf("\nSize of BST: %d\n",size);
+    mirrorBST(bstree.troot);
+    printf("\nInorder Traversal: ");
+    inOrder(bstree.troot);
     return 0;
 }
