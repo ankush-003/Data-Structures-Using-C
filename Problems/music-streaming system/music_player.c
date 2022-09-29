@@ -126,56 +126,85 @@ void reverse(playlist_t* playlist) // TODO: reverse the order of the songs in th
 	if(is_empty(playlist->list) || playlist->num_songs == 1)
 		return;
 
-	song_t *cur = playlist->list->head;
-	playlist->list->head = playlist->list->tail;
-	playlist->list->tail = cur;
+	song_t *current = playlist->list->head;
 	song_t *prev = NULL;
-	while(prev!=NULL) {
-		prev = cur;
-		cur = cur->next;
-		prev->next = prev->prev;
-		prev->prev = cur;
+	
+	while(current != NULL) {
+		prev = current->prev;
+		current->prev = current->next;
+		current->next = prev;
+		current = current->prev;
 	}
+	current = playlist->list->head;
+	playlist->list->head = playlist->list->tail;
+	playlist->list->tail = current;
 }
 
 void k_swap(playlist_t* playlist, int k) // TODO: swap the node at position i with node at position i+k upto the point where i+k is less than the size of the linked list
 {
-	if(is_empty(playlist->list)||(playlist->num_songs == 1))
-		return;
-		
-	node_t *cur1 = playlist->list->head;	
-	node_t *cur2 = cur1;
-	node_
-	for (int i = 0;(i+k) < (playlist->list->size); i++)
-	{
-		cur2 = cur1;
-		for(int j=0;j<(k-1);j++)
-			cur2 = cur2->next;
-		cur2->next->next = cur1->next;
-		cur1->next = cur2->next
-		cur2->next->prev = cur1->prev;
-		cur1->prev = cur2;	
-	}
+	node_t *inode = playlist->list->head, *temp;
+    int i = 0, x = k;
+    while(i+x < playlist->list->size){
+        node_t *knode = inode;
+        while(k && knode != NULL){
+            knode = knode->next;
+            k--;
+        }
+        node_t *iprev = inode->prev, *inext = inode->next;
+        node_t *kprev = knode->prev, *knext = knode->next;
+        temp = inode;
+        inode = knode;
+        knode = temp;
+
+        if(iprev != NULL){
+            iprev->next = knode;
+            knode->prev = iprev;
+        }
+        else{
+            knode->prev = NULL;
+        }
+
+        if(kprev != NULL){
+            kprev->next = inode;
+            inode->prev = kprev;
+        }
+
+        if(inext != NULL){
+            inext->prev = knode;
+            knode->next = inext;
+        }
+        else{
+            knode->next = NULL;
+        }
+
+        if(knext != NULL){
+            inode->next = knext;
+            knext->prev = inode;
+        }
+        else{
+            inode->next = NULL;
+        }
+        i++;
+        inode = knode->next;
+        k = x;
+    }
 }
 
 void shuffle(playlist_t* playlist, int k) // TODO: perform k_swap and reverse
 {
-	k_swap(playlist,k);
 	reverse(playlist);
 }
 
 song_t* debug(playlist_t* playlist) // TODO: if the given linked list has a cycle, return the start of the cycle, else return null. Check cycles only in forward direction i.e with the next pointer. No need to check for cycles in the backward pointer.
 {
-	song_t *slowptr = playlist->list->head;
-	song_t *fastptr = playlist->list->head;
-	while ((slowptr != NULL)&&(fastptr != NULL)&&(fastptr->next != NULL))
+	song_t *tempNode = playlist->list->head;
+	while (tempNode != NULL)
 	{
-		slowptr = slowptr->next;
-		fastptr = fastptr->next->next;
+		if(tempNode == playlist->list->tail->next)
+			return tempNode;
+		tempNode = tempNode->next;	
 	}
-	if((slowptr == fastptr)&&(playlist->num_songs != 1))
-		return slowptr;
-	return NULL;	
+	return NULL;
 }
 
 void display_playlist(playlist_t* p) // Displays the playlist

@@ -60,12 +60,18 @@ void insert_after(list_t* list, int data, int prev) // TODO: inserts data after 
 		newNode->data = data;
 		newNode->next = NULL;
 		newNode->prev = NULL;
+		int found = 0;
 		// Traversing list till prev is found in list
-		while ((temp->data != prev)&&(temp != NULL))
+		while ((temp != NULL)&&(!found))
 		{
+			if(temp->data == prev)
+			{
+				found++;
+				break;
+			}
 			temp = temp->next;
 		}
-		if(temp->data == prev) {
+		if(found) {
 			if(temp == list->tail)
 			{
 				temp->next = newNode;
