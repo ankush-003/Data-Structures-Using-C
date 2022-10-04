@@ -27,7 +27,7 @@ int main(){
     int lines;
     FILE *fptr;
 
-    if ((fptr = fopen("sample_input2.txt","r")) == NULL){
+    if ((fptr = fopen("sample_input1.txt","r")) == NULL){
         printf("Error! opening file");
         exit(1);
     }
