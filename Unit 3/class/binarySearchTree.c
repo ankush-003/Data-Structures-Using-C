@@ -65,9 +65,9 @@ void inOrder(Node *root)
 {
     if(root == NULL)
         return;
-    preOrder(root->lchild);
+    inOrder(root->lchild);
     printf("%d ",root->key);
-    preOrder(root->rchild);
+    inOrder(root->rchild);
 }
 
 int findMin(Node *root)
