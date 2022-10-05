@@ -94,11 +94,11 @@ void inOrder(Node *root)
     inOrder(root->rchild);
 }
 
-Node *inorderSuccessor(Node *troot) {
-    if(troot == NULL) {
-        return 
-    }
-}
+// Node *inorderSuccessor(Node *troot) {
+//     if(troot == NULL) {
+//         return 
+//     }
+// }
 
 Node *deleteNode(Node *troot,int ele)
 {
