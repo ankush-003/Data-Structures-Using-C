@@ -5,12 +5,12 @@ int check=0;
 int found=0;
 //struct for node
 struct node {
-    char value;            // all void types replaced by char*
+    char *value;            // all void types replaced by char*
     struct node *p_left;
     struct node *p_right;
 };
 
-int my_strlen(char * s) 
+int my_strlen(char *s) 
 {
     int i = 0;
     while(s[++i]);
@@ -29,12 +29,40 @@ void my_strcpy(char *str1, char *str2)//str2 is source, str1 is dest
 
 int my_strcmp(const char *a, const char *b)
 {
-    
+    while(*a && *b && *a == *b) {
+        a++,b++;
+    }
+    return (*a - *b);
 }
+
+struct node *createNewNode(char *key) {
+    struct node *newNode = (struct node *) malloc(sizeof(struct node));
+    newNode->value = key;
+    newNode->p_left = NULL;
+    newNode->p_right = NULL;
+    return newNode;
+}
+
 //inserts elements into the tree
 void insert(char* key, struct node** leaf)
 {
-    
+    if(*leaf == NULL) {
+        *leaf = createNewNode(key);
+        return;
+    }
+    else {
+        int compare = my_strcmp(key,(*leaf)->value);
+        if(compare < 0) {
+            insert(key,&((*leaf)->p_left));
+        }
+        else if (compare > 0) {
+            insert(key,&((*leaf)->p_right));
+        }
+        else {
+            check = -1;
+            return;
+        }
+    }
 }
 
 
@@ -43,7 +71,12 @@ void insert(char* key, struct node** leaf)
 //recursive function to print out the tree inorder
 void asc_order(struct node *root)
 {
-    
+    if(root == NULL) {
+        return;
+    }
+    asc_order(root->p_left);
+    printf("%s\n",root->value);
+    asc_order(root->p_right);
 }
 
 
@@ -51,7 +84,22 @@ void asc_order(struct node *root)
 //searches elements in the tree
 void search(char* key, struct node* leaf)  // no need for **
 {
-    
+    if(leaf == NULL) {
+        check = 0;
+        return;
+    }
+    else {
+        int compare = my_strcmp(key,leaf->value);
+        if(compare < 0) {
+            search(key,(leaf->p_left));
+        }
+        else if (compare > 0) {
+            search(key,(leaf->p_right));
+        }
+        else {
+            found = 1;
+        }
+    }
 }
 
 
