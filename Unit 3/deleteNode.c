@@ -83,23 +83,25 @@ Node *deleteNode(Node *root,int data) {
         root->lchild = deleteNode(root->lchild,data);
     }
     else {
-        Node *temp = root;
-        if(root->lchild == NULL && root->rchild == NULL) {
-            free(temp);
-            root = NULL;
+        Node *temp;
+        // if(root->lchild == NULL && root->rchild == NULL) {
+        //     free(temp);
+        //     root = NULL;
+        // }
+        // These two handle both the cases of leaf node and single child
+        if(root->lchild == NULL) {
+            temp = root->rchild;
+            free(root);
+            return temp;
         }
-        else if(root->lchild == NULL) {
-            root = root->rchild;
-            free(temp);
+        if(root->rchild == NULL) {
+            temp = root->lchild;
+            free(root);
+            return temp;
         }
-        else if(root->rchild == NULL) {
-            root = root->lchild;
-            free(temp);
-        }
-        else {
-            root->info = (inOrderSuccessor(root->rchild))->info;
-            root->rchild = deleteNode(root->rchild,root->info);
-        }
+        // Node with two children case
+        root->info = (inOrderSuccessor(root->rchild))->info;
+        root->rchild = deleteNode(root->rchild,root->info);// deleting inorder successor
         return root;
     }
 }
