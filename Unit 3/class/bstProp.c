@@ -131,6 +131,22 @@ void inOrder(Node *root)
     preOrder(root->rchild);
 }
 
+// C function to search a given key in a given BST
+Node* search(Node *root, int key)
+{
+    // Base Cases: root is null or key is present at root
+    if (root == NULL) {
+        return NULL;
+    }
+    if (root->key == key)
+        return root;
+    // Key is greater than root's key
+    if (root->key < key)
+       return search(root->rchild, key);
+    // Key is smaller than root's key
+    return search(root->lchild, key);
+}
+
 int main()
 {
     int data;

@@ -94,11 +94,12 @@ void inOrder(Node *root)
     inOrder(root->rchild);
 }
 
-// Node *inorderSuccessor(Node *troot) {
-//     if(troot == NULL) {
-//         return 
-//     }
-// }
+int inorderSuccessor(Node *troot) {
+    if(troot->lchild == NULL) {
+        return troot->key;
+    }
+    return inorderSuccessor(troot->lchild);
+}
 
 Node *deleteNode(Node *troot,int ele)
 {
@@ -115,6 +116,7 @@ Node *deleteNode(Node *troot,int ele)
         troot->rchild = deleteNode(troot->rchild,ele);
     }
     else {
+        // Takes care of both case 1 and 2:
         if(troot->lchild == NULL) {
             temp = troot->rchild;
             free(troot);
@@ -127,6 +129,7 @@ Node *deleteNode(Node *troot,int ele)
         }
         else {
             // Using inorderSuccessor method:
+            // troot->key = findMin(troot->rchild);
             troot->key = findMin(troot->rchild);
             troot->rchild = deleteNode(troot->rchild,troot->key);
         }
