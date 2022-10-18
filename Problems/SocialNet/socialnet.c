@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include<stdbool.h>
+#include <stdbool.h>
 #define MAX 100
 
 typedef struct node 
@@ -62,7 +62,15 @@ struct node* retUser(char str[MAX])
 //search for user with id=key
 struct node* search(int key, struct node *users)
 {
-    //CODE HERE
+    if(users == NULL) return NULL;
+    else {
+        // key is found
+        if(key == users->id) return users;
+        // key is smaller than root's key
+        else if(key < users->id) return search(key, users->left);
+        // key is greater than root's key
+        else return search(key, users->right);
+    }
 }
 
 //see document for explanattion
@@ -80,12 +88,35 @@ struct node* insertUser(struct node*root,int id,struct node*user)
 //prints friends list
 void friends(int id, struct node *users) 
 {
-   //CODE HERE
+    struct node *tempUser;
+    tempUser = search(id,users);
+    if(tempUser != NULL) {
+        printf("Friends of %d: ",id);
+        if(tempUser->numfren==0)
+        {
+            printf("-1\n");
+        }
+        else
+        {
+            for(int i=0;i<tempUser->numfren;i++)
+            {
+                printf("%d ",tempUser->friends[i]);
+            }
+            printf("\n");
+        }
+    }
 }
 
 //find child node with minimum value (inorder successor) - helper to delete node
 struct node *minValueNode(struct node *node) {
-  //CODE HERE
+    if(node == NULL) return node;
+    else {
+        struct node *currentUser = node;
+        while(currentUser->left != NULL) {
+            currentUser = currentUser->left;
+        }
+        return currentUser;
+    }
 }
 
 //deletes itself from its friend's nodes
@@ -96,13 +127,44 @@ struct node*deleteFriends(int key, struct node*users)
 
 // Deleting a node
 struct node *deleteNode(struct node *root, int key) {
-  //CODE HERE
+    if(root == NULL) {
+        return NULL;
+    }
+    else if(key < root->id) {
+        root->left = deleteNode(root->left, key);
+    }
+    else if(key > root->id) {
+        root->right = deleteNode(root->right, key);
+    }
+    else {
+        struct node *tempNode;
+        // deleting node with one child
+        if(root->left == NULL) {
+            tempNode = root->right;
+            free(root);
+            return tempNode;
+        }
+        else if(root->right == NULL) {
+            tempNode = root->left;
+            free(root);
+            return tempNode;
+        }
+        // deleting node with two children
+        else {
+            tempNode = minValueNode(root->right);
+            root->id = tempNode->id;
+            root->right = deleteNode(root->right, tempNode->id);
+        }
+    }
 }
 
 //Print USER's IDs in ascending order
 void printInOrder(node* myusers) 
 {
-    //CODE HERE
+    if(myusers == NULL) return;
+    printInOrder(myusers->left);
+    printf("%d ", myusers->id); 
+    printInOrder(myusers->right);
 }
 
 
