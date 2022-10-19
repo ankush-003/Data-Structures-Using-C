@@ -239,7 +239,7 @@ void printInOrder(node* myusers)
 {
     if(myusers == NULL) return;
     printInOrder(myusers->left);
-    printf("%d ", myusers->id); 
+    printf("%d %s\n", myusers->id,myusers->name); 
     printInOrder(myusers->right);
 }
 
