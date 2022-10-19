@@ -76,13 +76,68 @@ struct node* search(int key, struct node *users)
 //see document for explanattion
 struct node*refineUser(struct node*user, struct node *users)
 {
-    //CODE HERE
+    if(user == NULL) {
+        return NULL;
+    }
+    // Until we dont find the user with the same ID
+    while(search(user->id,users)!=NULL)
+    {
+        user->id++;
+    }
+    struct node *userFriend = NULL;
+    bool friendFound=false;
+    int i = 0;
+    while ((i < user->numfren)&&(user->numfren!=0))
+    {
+        userFriend = search(user->friends[i],users);
+        // delete the friend if it is not in the tree
+        if(userFriend== NULL)
+        {
+            for (int j = i; j < user->numfren-1; j++)
+            {
+                user->friends[j]=user->friends[j+1];
+            }
+            user->numfren--;
+        }
+        else {
+            for (int j = 0; (j < userFriend->numfren)&&(!friendFound); j++)
+            {
+                if(userFriend->friends[j]==user->id)
+                {
+                    friendFound=true;
+                }
+            }
+            if (!friendFound && userFriend->numfren != MAX)
+            {
+                userFriend->friends[userFriend->numfren]=user->id;
+                userFriend->numfren++;
+            }
+            friendFound=false;
+            i++;
+        }
+    }
+    if(user->numfren==0) user->friends[0]=-1;
+    return user;
 }
 
 //insert user with id
 struct node* insertUser(struct node*root,int id,struct node*user)
 {
-   //CODE HERE
+    // root != NULL
+    if(root!=NULL) {
+        if(id > root->id) {
+            root->right = insertUser(root->right,id,user);
+        }
+        else if(id < root->id) {
+            root->left = insertUser(root->left,id,user);
+        }
+    }
+    //root is null case
+    else {
+        user->right = NULL;
+        user->left = NULL;
+        root = user;
+    }
 }
 
 //prints friends list
@@ -91,7 +146,7 @@ void friends(int id, struct node *users)
     struct node *tempUser;
     tempUser = search(id,users);
     if(tempUser != NULL) {
-        printf("Friends of %d: ",id);
+        // printf("Friends of %d: ",id);
         if(tempUser->numfren==0)
         {
             printf("-1\n");
@@ -122,7 +177,28 @@ struct node *minValueNode(struct node *node) {
 //deletes itself from its friend's nodes
 struct node*deleteFriends(int key, struct node*users)
 {
-    //CODE HERE
+    struct node *tempUser = search(key,users);
+    struct node *tempFriend = NULL;
+    if(tempUser != NULL) {
+        for(int i = 0;i < tempUser->numfren;i++) {
+            tempFriend = search(tempUser->friends[i],users);
+            if(tempFriend != NULL) {
+                for(int j = 0; j < tempFriend->numfren;j++) {
+                    if(tempFriend->friends[j] == key) {
+                        for (int k = j; k < tempFriend->numfren - 1; k++)
+                        {
+                            tempFriend->friends[k] = tempFriend->friends[k + 1];
+                        }
+                        tempFriend->numfren--;
+                    }
+                }
+            }
+        }
+        free(tempUser->friends);
+        tempUser->friends = NULL;
+        tempUser->numfren = 0;
+    }
+    return users;
 }
 
 // Deleting a node
