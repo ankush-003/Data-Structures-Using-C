@@ -91,7 +91,7 @@ struct node*refineUser(struct node*user, struct node *users)
     {
         userFriend = search(user->friends[i],users);
         // delete the friend if it is not in the tree
-        if(userFriend== NULL)
+        if(userFriend == NULL)
         {
             for (int j = i; j < user->numfren-1; j++)
             {
@@ -131,12 +131,14 @@ struct node* insertUser(struct node*root,int id,struct node*user)
         else if(id < root->id) {
             root->left = insertUser(root->left,id,user);
         }
+        return root;
     }
     //root is null case
     else {
         user->right = NULL;
         user->left = NULL;
         root = user;
+        return root;
     }
 }
 
@@ -155,9 +157,8 @@ void friends(int id, struct node *users)
         {
             for(int i=0;i<tempUser->numfren;i++)
             {
-                printf("%d ",tempUser->friends[i]);
+                printf("%d\n",tempUser->friends[i]);
             }
-            printf("\n");
         }
     }
 }
@@ -201,6 +202,13 @@ struct node*deleteFriends(int key, struct node*users)
     return users;
 }
 
+void copyNode(struct node *node1,struct node *node2) {
+    node1->id = node2->id;
+    strcpy(node1->name,node2->name);
+    node1->numfren = node2->numfren;
+    node1->friends = node2->friends;
+}
+
 // Deleting a node
 struct node *deleteNode(struct node *root, int key) {
     if(root == NULL) {
@@ -228,10 +236,14 @@ struct node *deleteNode(struct node *root, int key) {
         // deleting node with two children
         else {
             tempNode = minValueNode(root->right);
-            root->id = tempNode->id;
+            // Copying the inorder successor's content to this node
+            copyNode(root,tempNode);
+            // Deleting the inorder successor
             root->right = deleteNode(root->right, tempNode->id);
+            return root;
         }
     }
+    return root;
 }
 
 //Print USER's IDs in ascending order
