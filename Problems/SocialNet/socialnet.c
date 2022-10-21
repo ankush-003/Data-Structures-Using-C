@@ -145,7 +145,7 @@ struct node* insertUser(struct node*root,int id,struct node*user)
 //prints friends list
 void friends(int id, struct node *users) 
 {
-    struct node *tempUser;
+    struct node *tempUser = NULL;
     tempUser = search(id,users);
     if(tempUser != NULL) {
         // printf("Friends of %d: ",id);
