@@ -1,4 +1,4 @@
-Wrong input!
+Wrong input! 
 12 A
 13 A
 13
