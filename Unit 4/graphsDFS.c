@@ -89,6 +89,47 @@ void printGraph(struct Graph* graph) {
   }
 }
 
+static int isCyclic(int current,struct Graph *g,int parent) {
+    /* logic is to check if there is a back edge
+      if there is a back edge then there is a cycle
+      if there is no back edge then there is no cycle
+      back edge is an edge from a node to its ancestor
+      so we need to keep track of the parent of each node*/
+    g->visited[current] = 1;
+    struct node* temp = g->adjLists[current];
+    int isCycle = 0;
+    while (temp && !isCycle) {
+        int adjVertex = temp->vertex;
+        if (g->visited[adjVertex] == 0) {
+            if (isCyclic(adjVertex,g,current)) {
+                isCycle = 1;
+            }
+        } else if (adjVertex != parent) {// visited and not parent
+            isCycle = 1;
+        }
+        temp = temp->next;
+    }
+    return isCycle;
+}
+
+unsigned int cycle_finder(struct Graph *g)
+{
+    int i;
+    for (i = 0; i < g->numVertices; i++) {
+        g->visited[i] = 0;
+    }
+    // to find the cycle in the graph
+    // for loop is used to check for the cycle in each component of the graph
+    for (i = 0; i < g->numVertices; i++) {
+        if (g->visited[i] == 0) {
+            if (isCyclic(i,g,-1)) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 int main() {
   struct Graph* graph = createGraph(4);
   addEdge(graph, 0, 1);
@@ -100,5 +141,6 @@ int main() {
 
   DFS(graph, 2);
 
+  printf("%s\n",cycle_finder(graph)?"Cycle found":"No cycle found");
   return 0;
 }

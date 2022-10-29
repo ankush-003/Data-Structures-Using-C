@@ -54,7 +54,32 @@ int delete (int *queue, int *pqr)
 //You are required to complete this function
 int find_dist(Graph * adj_mat, int source, int dest)
 {
-    
+    int queue[MAX_NODES];
+    int pqr = -1;
+    int visited[MAX_NODES];
+    int dist[MAX_NODES];
+    for (int i = 0; i < adj_mat->n; ++i)
+    {
+        visited[i] = 0;
+        dist[i] = -1;
+    }
+    append(queue, source, &pqr);
+    visited[source] = 1;
+    dist[source] = 0;
+    while (pqr != -1)
+    {
+        int v = delete (queue, &pqr);
+        for (int i = 0; i < adj_mat->n; ++i)
+        {
+            if (adj_mat->adj[v][i] == 1 && visited[i] == 0)
+            {
+                append(queue, i, &pqr);
+                visited[i] = 1;
+                dist[i] = dist[v] + 1;
+            }
+        }
+    }
+    return dist[dest];
 }
 
 int main()
