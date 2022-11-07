@@ -1,0 +1,6 @@
+methods to handle collision:
+-> Separate Chaining
+-> Open Addressing:
+    i) Linear Probing
+    ii) Quadratic Probing
+    iii) Double Hashing
