@@ -23,7 +23,19 @@ Trie *createroot(void) {
 }
 
 void insert(Trie *root,char *key) {
-    
+    int len = strlen(key);
+    int level;
+    int index;
+    Trie *cur = root;
+
+    for(int i = 0;i < len;i++) {
+        index = (int) key[level] - (int)'a';
+        if(cur->children[index] == NULL) {
+            cur->children[index] = createRoot();
+        }
+        cur = cur->children[index];
+    }
+    cur->isEndOfWord = 1;
 }
 
 int main()
