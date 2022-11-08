@@ -29,7 +29,7 @@ void insert(Trie *root,char *key) {
     Trie *cur = root;
 
     for(int i = 0;i < len;i++) {
-        index = (int) key[level] - (int)'a';
+        index = (int) key[level] - (int)'a'; // Pointer varies from 0 to 25
         if(cur->children[index] == NULL) {
             cur->children[index] = createRoot();
         }
