@@ -1,0 +1,109 @@
+Assignment 3 
+
+INSTRUCTIONS:
+1. The google form link to submit will be enabled at the end and the Internet access will be disabled till then.
+
+
+2. Any plagiarism detected shall be taken very seriously and the student who has plagiarized and the one who sent the code, both shall be penalized. 
+
+
+3. Boilerplate code is also provided. Please use it to avoid any confusion regarding input/output format. 
+
+
+4. The google form link for submission:
+* Name each of the solution files as SRN.c and submit in the correct form fields i.e solution to question 1 in "Question 1" field, solution to question 2 in "Question 2" field and solution to question 3 in "Question 3" field in the form.
+* Please note that filenames like SRN(1).c is invalid. Please be careful while naming/renaming your files. Eg: PES1UG19CS519(1).c is invalid. PES1UG19CS519.c is an example for the only valid format. 
+______________________________________________________________________________________________________
+
+Question1 description
+
+Input format:
+
+Task to be performed:
+
+Output format:
+
+
+Sample test cases:
+* Input: 
+
+* Output:
+
+Note: 
+1. Using the boilerplate code provided by us is mandatory. Not doing so will fetch you ZERO marks. 
+2. DON'T PRINT ANYTHING in the code. 
+3. Make sure to free the memory at adequate places so that your code does not lead to any memory leak.
+
+
+Boilerplate code for Q1:    
+______________________________________________________________________________________________________
+Question 2 description
+
+Input format:
+
+Task to be performed:
+
+Output format:
+
+Sample test cases:
+
+* Input: 
+
+* Output:
+
+
+Note:
+1. Using the boilerplate code provided by us is mandatory. Not doing so will fetch you ZERO marks. 
+2. DON'T PRINT ANYTHING in the code.
+3. Make sure to free the memory at adequate places so that your code does not lead to any memory leak.
+
+
+Boilerplate code for Q2:
+______________________________________________________________________________________________________
+
+Question 3 description
+
+Input format:
+
+Task to be performed:
+
+Output format:
+
+Sample test cases:
+
+* Input: 
+
+* Output:
+
+Boilerplate code for Q3:
+
+# Topics:
+1) Create an ordered singly linked list.
+
+2) Reverse the given singly linked list.
+
+3) Perform the following operations on a singly/doubly linked list.
+
+    a) Insert at the given position
+
+    b) Delete alternate nodes, starting from the first node in the given list
+
+    c) Count the number of nodes
+
+4) Implement Josephus problem using circular linked list
+
+5) Convert the given valid infix expression to postfix.
+
+6) Create a priority queue
+
+7) Perform the following operations on a binary tree.
+
+    a) Compute the height
+
+    b) Count the no. of nodes
+
+8) Create a Binary search tree using implicit array representation and do the preorder, inorder, and postorder traversal on the same.
+
+9) Perform BFS and DFS traversal for a connected/disconnected, directed/undirected graph
+
+10) Implement hashing, where the collision is resolved using linear probing.
