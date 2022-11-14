@@ -108,7 +108,7 @@ void infixToPostfix(char *expression)
             {
                 expression[++k] = pop(&s);
             }
-            if(isEmpty(&s))
+            if(isEmpty(&s) && peek(&s) != '(')
             {
                 printf("Invalid Expression!\n");
                 exit(-1);
