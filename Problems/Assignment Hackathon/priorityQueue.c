@@ -59,7 +59,7 @@ void enqueue(pQ *q, int data, int priority) {
         return;
     }
     int pos = findPos(q, priority);
-    for(int i = pos;i <= q->rear; i++) {
+    for(int i = q->rear;i >= pos; i--) {
         q->arr[i+1] = q->arr[i];
     }    
     q->arr[pos] = ele;
