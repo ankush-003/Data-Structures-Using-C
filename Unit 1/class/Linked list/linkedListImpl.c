@@ -71,7 +71,7 @@ Node *insertAtPos(Node *head,int pos,int ele)
         newNode->link = NULL;
 
         for(int i = 1;(i < (pos - 1));i++) {
-            //i  till pos - 1 as in pos - 2 the cur points to pos-1
+            //i  till pos - 1 because we stop at pos - 1
             cur = cur->link;
             if(cur == NULL)
             {
