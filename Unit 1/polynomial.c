@@ -91,6 +91,34 @@ void multiply(node *head1, node *head2) {
     display(result);
 }
 
+void addPoly(node *head1, node *head2) {
+    node *cur1 = head1;
+    node *cur2 = head2;
+    node *result = NULL;
+    while(cur1 && cur2) {
+        // assuming that the exponents are in decreasing order
+        if(cur1->exp == cur2->exp) {
+            insertList(&result, cur1->coeff + cur2->coeff, cur1->exp);
+            cur1 = cur1->next;
+            cur2 = cur2->next;
+        } else if(cur1->exp > cur2->exp) {
+            insertList(&result, cur1->coeff, cur1->exp);
+            cur1 = cur1->next;
+        } else {
+            insertList(&result, cur2->coeff, cur2->exp);
+            cur2 = cur2->next;
+        }
+    }
+    while(cur1) {
+        insertList(&result, cur1->coeff, cur1->exp);
+        cur1 = cur1->next;
+    }
+    while(cur2) {
+        insertList(&result, cur2->coeff, cur2->exp);
+        cur2 = cur2->next;
+    }
+    display(result);
+}
 
 int main()
 {
@@ -98,5 +126,6 @@ int main()
     get_poly(&head);
     display(head);
     evalDerivative(head, 2);
+    addPoly(head, head);
     return 0;
 }
