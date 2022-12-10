@@ -146,7 +146,7 @@ void iterativePostorder(Node *root) {
         if(current->lchild) {
             push(&s1,current->lchild);
         }
-        // Right child is pushed so it goes into stack 2 first
+        // left child is pushed to s1 so right child is pushed to s2 first (LIFO)
         if(current->rchild) {
             push(&s1,current->rchild);
         }
