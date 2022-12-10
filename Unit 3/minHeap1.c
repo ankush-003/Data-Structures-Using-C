@@ -61,16 +61,43 @@ void free_minheap(MinHeap* heap) {
     free(heap);
 }
 
+void insert_heap(MinHeap* heap,int data) {
+    if(heap->size == 0) {
+        printf("Heap Not Created!\n");
+        return;
+    }
+    heap->arr = (int*)realloc(heap->arr,heap->size+1);
+    heap->arr[heap->size] = data;
+    heap->size++;
+    int child = heap->size - 1;
+    int parent = (child - 1)/2;
+    while(parent >= 0 && heap->arr[parent] > heap->arr[child]) {
+        int temp = heap->arr[parent];
+        heap->arr[parent] = heap->arr[child];
+        heap->arr[child] = temp;
+        child = parent;
+        parent = (child - 1)/2;
+    }
+}
+
 int main() {
 
     int capacity; 
+    printf("Enter the capacity of the heap: ");
     scanf("%d", &capacity);
     MinHeap* heap = init_minheap(capacity); //number of elements 
     int i=0;
     while(i < capacity){
+        printf("Enter the element: ");
         scanf("%d", &heap->arr[i++]);
     }
     create_minheap(heap);
+    print_minheap(heap);
+    printf("\n");
+    int data;
+    printf("Enter the data to be inserted: ");
+    scanf("%d", &data);
+    insert_heap(heap,data);
     print_minheap(heap);
     free_minheap(heap);
     return 0;
