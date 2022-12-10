@@ -87,7 +87,7 @@ int survivor(int n,int k)
     {
         while(aux.front != aux.rear)
         {
-            for(int i = 0;i < k;i++)
+            for(int i = 1;i < k;i++)
             {
                 enqueue(&aux,dequeue(&aux));
             }
