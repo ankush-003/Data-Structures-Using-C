@@ -74,6 +74,17 @@ Node *inorderSuccessor(Node *ptr) {
     return ptr;
 }
 
+Node *inorderPredecessor(Node *ptr) {
+    if(ptr->lthread) {
+        return ptr->lchild;
+    }
+    ptr = ptr->lchild;
+    while(ptr->rthread == 0) {
+        ptr = ptr->rchild;
+    }
+    return ptr;
+}
+
 void inorder(Node *root) {
     Node *ptr = root;
     if(root == NULL) {
@@ -88,7 +99,7 @@ void inorder(Node *root) {
         printf("%d ",ptr->key);
         ptr = inorderSuccessor(ptr);// as right child might have subtree
     }
-    
+    printf("\n");
 }
 
 int main()

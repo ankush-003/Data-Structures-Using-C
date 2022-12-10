@@ -31,7 +31,10 @@ int isOperator(char e) {
 }
 
 void initS(S *sptr) {
-
+    sptr->top = -1;
+    for(int i = 0;i < 20;i++) {
+        sptr->ele[i] = NULL;
+    }
 }
 
 ETree *createNode(char e) {
@@ -66,17 +69,27 @@ ETree *buildETree(ETree *root,char *postFix) {
 }
 
 float evaluateOp(ETree *root){
+    float result = -1;
     switch(root->op) {
         case '+':
-            return;
+            result = evaluateOp(root->lchild) + evaluateOp(root->rchild);
+            break;
         case '-':
+            result = evaluateOp(root->lchild) - evaluateOp(root->rchild);
+            break;
         case '*':
+            result = evaluateOp(root->lchild) * evaluateOp(root->rchild);
+            break;
         case '/':
+            result = evaluateOp(root->lchild) / evaluateOp(root->rchild);
+            break;
         case '^':
-            return 1;
-        default:
-            return 0;    
-    }
+            result = pow(evaluateOp(root->lchild),evaluateOp(root->rchild));
+            break;
+        default: 
+            return root->op - '0';  
+    }           
+    return result;
 }
 
 float evalETree(ETree *root) {
