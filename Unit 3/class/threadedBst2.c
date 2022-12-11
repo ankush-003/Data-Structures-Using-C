@@ -83,7 +83,7 @@ void create(T *pt)
 		scanf("%d",&e);
 		
 		p=pt->root;
-	q=NULL;
+		q=NULL;
 	while(p!=NULL)
 	{
 		q=p;
@@ -92,7 +92,7 @@ void create(T *pt)
 		else
 		{
 			if(p->rthread)
-				p=NULL;
+				break;
 			else
 				p=p->right;
 		}		
@@ -100,7 +100,7 @@ void create(T *pt)
 	if(e < q->info)
 		setLeft(q,e);
 	else
-		setRight(q,e);
+		setRight(p,e);
 	printf("Do you wish to add another element\n");
 	scanf("%d",&wish);
 	}while(wish);

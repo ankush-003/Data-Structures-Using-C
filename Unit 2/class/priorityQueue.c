@@ -60,11 +60,10 @@ void enqueue(Q *qptr,int info,int priority)
     {
         int i;
         int pos = peek(qptr,priority);
-        for(i = pos;(i<=(qptr->rear));i++)
+        for(i=qptr->rear;i>=pos;i--)
         {
             qptr->qe[i+1] = qptr->qe[i];
         }
-        qptr->qe[pos] = ele;
         qptr->rear++;
     }  
 }

@@ -110,5 +110,6 @@ int main()
     root = insertBst(root,69);
     root = insertBst(root,70);
     root = insertBst(root,49);
+    inorder(root);
     return 0;
 }
